@@ -1,0 +1,132 @@
+//1.
+#include <iostream>
+#include <string>
+using namespace std;
+
+string encrypt(string text, int k) {
+    string result = "";
+
+    for (int i = 0; i < text.length(); i++) {
+        result += char(int(text[i] + k) % 128);
+    }
+    return result;
+}
+
+string decrypt(string text, int k) {
+    string result = "";
+
+    for (int i = 0; i < text.length(); i++) {
+        result += char(int(text[i] - k + 128) % 128);
+    }
+    return result;
+}
+
+int main() {
+    string text;
+    int key;
+    cout << "Enter the message to encrypt: ";
+    getline(cin, text);
+    cout << "Enter the key: ";
+    cin >> key;
+
+    string encrypted = encrypt(text, key);
+    cout << "Encrypted message: " << encrypted << endl;
+
+    string decrypted = decrypt(encrypted, key);
+    cout << "Decrypted message: " << decrypted << endl;
+
+    return 0;
+}
+//2.(using oop)
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Encryptor {
+private:
+    string text;
+    int key;
+
+public:
+    Encryptor(string t, int s) : text(t), key(s) {}
+
+    string encrypt() {
+        string result = "";
+        for (int i = 0; i < text.length(); i++) {
+            result += char(int(text[i] + key) % 128);
+        }
+        return result;
+    }
+
+    string decrypt(string encryptedText) {
+        string result = "";
+        for (int i = 0; i < encryptedText.length(); i++) {
+            result += char(int(encryptedText[i] - key + 128) % 128);
+        }
+        return result;
+    }
+};
+
+int main() {
+    string text;
+    int key;
+    cout << "Enter the message to encrypt: ";
+    getline(cin, text);
+    cout << "Enter the key: ";
+    cin >> key;
+    Encryptor encryptor(text, key);
+
+    string encrypted = encryptor.encrypt();
+    cout << "Encrypted message: " << encrypted << endl;
+
+    string decrypted = encryptor.decrypt(encrypted);
+    cout << "Decrypted message: " << decrypted << endl;
+
+    return 0;
+}
+//3.Զանգվածի ամենամեծ արտադրյալ ունեցող երկու տարրերը
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+void find_elements(int* arr, int size) {
+    int max = arr[0] * arr[1];
+    int i1 = 0, i2 = 1;
+
+    for (int i = 0; i < size; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (max <= arr[i] * arr[j]) {
+                max = arr[i] * arr[j];
+                i1 = i;
+                i2 = j;
+            }
+        }
+    }
+    cout << endl << "First element: " << arr[i1] << " (index: " << i1 << ")" << endl
+        << "Second element: " << arr[i2] << " (index: " << i2 << ")" << endl;
+}
+
+int main() {
+    srand(time(0));
+
+    int size;
+    do {
+        cout << "Enter the size of the array: ";
+        cin >> size;
+    } while (size < 2);
+
+    int* array = new int[size];
+
+    cout << "Array elements: ";
+    for (int i = 0; i < size; i++) {
+        array[i] = rand() % 20;
+        cout << array[i] << " ";
+    }
+    find_elements(array, size);
+    delete[] array;
+    return 0;
+}
+
+
+
+
